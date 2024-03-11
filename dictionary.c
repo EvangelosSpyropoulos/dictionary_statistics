@@ -1,5 +1,5 @@
 #include "dictionary.h"
-#include "dictionaryinternal.h"
+#include "dictionary_internal.h"
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
@@ -76,7 +76,7 @@ void print_statistics(dictionary* const dict, FILE* restrict output_stream) {
     long* letter_frequencies = calculate_letter_frequencies(dict);
     if (!letter_frequencies) { return; }
 
-    char* letters = calloc('Z' - 'A' + 1, sizeof(char));
+    char letters['Z' - 'A' + 1];
 
     // Initialize letters with capital latin character in alphabetical order
     for (char letter = 'A'; letter <= 'Z'; letter++) {
@@ -102,9 +102,6 @@ void print_statistics(dictionary* const dict, FILE* restrict output_stream) {
             fprintf(output_stream, "%c%c\n", letters[i], letters[j]);
         }
     }
-
-    if (letter_frequencies) { free(letter_frequencies); }
-    if (letters) { free(letters); }
 }
 
 
@@ -115,6 +112,7 @@ long* calculate_letter_frequencies(dictionary* const dict) {
     if (!letter_frequencies) {
         print_memory_problem_and_exit(stdin, -2);
     }
+    on_exit(free_callback, letter_frequencies);
 
     // Initialize all letter frequencies to 0.
     memset(letter_frequencies, 0, 'Z' - 'A' + 1);
@@ -219,6 +217,11 @@ void free_dictionary(int status, void* dictionary_addr) {
     }
 
     free(dictionary_addr);
+}
+
+
+void free_callback(int status, void* address) {
+    if (address) { free(address); }
 }
 
 

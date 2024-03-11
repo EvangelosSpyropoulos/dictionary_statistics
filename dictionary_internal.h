@@ -19,8 +19,10 @@
  * Calculates the frequencies of the capital letters in all words of the
  * dictionary pointed to by dict.
  * Allocates memory for an array of 'Z' - 'A' + 1 long integers where the
- * frequencies are stored and returns a pointer to it. If any word in dict is
- * NULL, frees any allocated memory and returns NULL.
+ * frequencies are stored and returns a pointer to it. Returns NULL if dict is
+ * NULL or any word in dict is NULL.
+ * Memory allocated by this function gets registered to be freed at normal
+ * process termination.
 */
 long* calculate_letter_frequencies(dictionary* const dict);
 
@@ -51,4 +53,11 @@ void swap(char* array, size_t first_index, size_t second_index);
  * Intended to be registered to the function on_exit.
 */
 void free_dictionary(int status, void* dictionary_addr);
+
+
+/*!
+ * Frees the allocated memory at address.
+ * Intended to be registered to the function on_exit.
+*/
+void free_callback(int status, void* address);
 #endif
