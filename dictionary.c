@@ -7,7 +7,7 @@
 dictionary* read_dictionary_from_file(const char* restrict pathname) {
     dictionary* dict = malloc(sizeof(dictionary));
     if (!dict) {
-        print_memory_problem_and_exit(stdin, -2);
+        print_memory_problem_and_exit(stderr, -2);
     }
 
     dict->words = NULL;
@@ -20,7 +20,7 @@ dictionary* read_dictionary_from_file(const char* restrict pathname) {
 
     FILE* file = fopen(pathname, "r");
     if (!file) {
-        printf("Cannot read input file\n");
+        fprintf(stderr, "Cannot read input file\n");
         exit(-3);
     }
 
@@ -30,7 +30,7 @@ dictionary* read_dictionary_from_file(const char* restrict pathname) {
         word_length++;
 
         if (!isupper(character) && character != '\n') {
-            printf("Invalid Data in Line %07ld\n", dict->num_of_words + 1);
+            fprintf(stderr, "Invalid Data in Line %07ld\n", dict->num_of_words + 1);
             exit(-4);
         }
 
@@ -40,13 +40,13 @@ dictionary* read_dictionary_from_file(const char* restrict pathname) {
             // Allocate memory to store a pointer to word.
             dict->words = reallocarray(dict->words, dict->num_of_words, sizeof(char*));
             if (!dict->words) {
-                print_memory_problem_and_exit(stdin, -2);
+                print_memory_problem_and_exit(stderr, -2);
             }
 
             // Allocate enough memory to store the word and '\0' in place of '\n'
             dict->words[dict->num_of_words - 1] = calloc(word_length, sizeof(char));
             if (!dict->words[dict->num_of_words - 1]) {
-                print_memory_problem_and_exit(stdin, -2);
+                print_memory_problem_and_exit(stderr, -2);
             }
 
             // Move to start of line
@@ -110,7 +110,7 @@ long* calculate_letter_frequencies(dictionary* const dict) {
 
     long* letter_frequencies = calloc('Z' - 'A' + 1, sizeof(long));
     if (!letter_frequencies) {
-        print_memory_problem_and_exit(stdin, -2);
+        print_memory_problem_and_exit(stderr, -2);
     }
     on_exit(free_callback, letter_frequencies);
 

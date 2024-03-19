@@ -1,8 +1,13 @@
 #include "dictionary.h"
 
+
+void print_usage(FILE* restrict output_stream);
+
+
 int main(int argc, char** argv) {
     if (argc != 2) {
-        printf("Invalid number of parameters\n");
+        fprintf(stderr, "Invalid number of parameters\n");
+        print_usage(stderr);
         return -1;
     }
 
@@ -13,4 +18,17 @@ int main(int argc, char** argv) {
     print_statistics(dict, stdout);
 
     return 0;
+}
+
+
+void print_usage(FILE* restrict output_stream) {
+    fprintf(output_stream,
+        "Usage: program dictionary_file\n\n"
+        "program: path to executable\n"
+        "dictionary_file: path to input text file\n\n"
+        "Valid input text files contain only uppercase words in the Latin "
+        "script separated by newlines.\n\n"
+        "Prints occurences of each letter in dictionary_file and the 2 letter "
+        "combinations of the 5 most frequent letter.\n"
+    );
 }
