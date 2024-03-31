@@ -28,7 +28,7 @@ void print_usage(FILE* restrict output_stream) {
         "dictionary_file: path to input text file\n\n"
         "Valid input text files contain only uppercase words in the Latin "
         "script separated by newlines.\n\n"
-        "Prints occurences of each letter in dictionary_file and the 2 letter "
-        "combinations of the 5 most frequent letter.\n"
+        "Prints the number of occurences of each letter in dictionary_file in descending "
+        "order and the 2 letter combinations of the 5 most frequent letter.\n"
     );
 }
